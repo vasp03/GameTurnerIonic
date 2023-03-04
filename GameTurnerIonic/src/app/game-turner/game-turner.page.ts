@@ -9,15 +9,19 @@ import { HttpClient } from '@angular/common/http';
 
 export class GameTurnerPage implements OnInit {
   public songList: Array<{ name: string; number: number; file: string; }> = [
-    { name: "Hi-Hat;", number: 1, file: 'hihat.mp3' },
-    { name: "Dark Mystic;", number: 2, file: 'scifi-darkMystic.mp3' },
-    { name: "Desert Action;", number: 3, file: 'scifi-desertAction.mp3' },
-    { name: "Mystic;", number: 4, file: 'scifi-mystic.mp3' },
-    { name: "Stealth;", number: 5, file: 'scifi-stealth.mp3' },
-    { name: "Tingles;", number: 6, file: 'scifi-tingles.mp3' },
-    { name: "Underwater;", number: 7, file: 'scifi-underwater.mp3' },
-    { name: "Upbeat;", number: 8, file: 'scifi-upbeat.mp3' },
-    { name: "Uplifting;", number: 9, file: 'scifi-uplifting.mp3' }
+    { name: "CAS 2", number: 1, file: 'CAS 2.mp3' },
+    { name: "Chill Ambient", number: 2, file: 'Chill Ambient.mp3' },
+    { name: "Cinematic Cello", number: 3, file: 'Cinematic Cello.mp3' },
+    { name: "Cosmic Glow", number: 4, file: 'Cosmic Glow.mp3' },
+    { name: "Dark matter", number: 5, file: 'Dark matter.mp3' },
+    { name: "Drone Main", number: 6, file: 'Drone Main.mp3' },
+    { name: "Drone Space", number: 7, file: 'Drone Space.mp3' },
+    { name: "Ethereal Dream", number: 8, file: 'Ethereal Dream.mp3' },
+    { name: "Lofi", number: 9, file: 'Lofi.mp3' },
+    { name: "Soft Daydream", number: 10, file: 'Soft Daydream.mp3' },
+    { name: "Space Chillout", number: 11, file: 'Space Chillout.mp3' },
+    { name: "Space Drone", number: 12, file: 'Space Drone.mp3' },
+    { name: "The Universe", number: 13, file: 'The Universe.mp3' },
   ];
 
   public playingBool: boolean = false;
@@ -26,15 +30,7 @@ export class GameTurnerPage implements OnInit {
   private directoryPath: string = "assets/songs/";
   private audioPlayer = new Audio();
   public songTimer: string = "0:00";
-  public playerList: Array<{ name: string; songNr: number; selected: boolean; color: string; }> = [
-    // { name: "a", songNr: 1, selected: true, color: "#ffff00" },
-    // { name: "aa", songNr: 2, selected: false, color: "#ffffff" },
-    // { name: "aaa", songNr: 3, selected: false, color: "#ff00ff" },
-    // { name: "aaaa", songNr: 4, selected: false, color: "#00ffff" },
-    // { name: "aaaaa", songNr: 5, selected: false, color: "#00ff00" },
-    // { name: "aaaaaa", songNr: 6, selected: false, color: "#0000ff" },
-    // { name: "aaaaaaa", songNr: 7, selected: false, color: "#000000" }
-  ];
+  public playerList: Array<{ name: string; songNr: number; selected: boolean; color: string; }> = [];
   public newPlayerName: string = "";
   public newPlayerNr: number = 0;
   public newPlayerColor: string = "#ffffff";
