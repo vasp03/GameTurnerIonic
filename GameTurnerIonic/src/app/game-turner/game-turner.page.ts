@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import * as copy from 'copy-to-clipboard';
 
 @Component({
   selector: 'app-game-turner',
@@ -23,7 +24,7 @@ export class GameTurnerPage implements OnInit {
     { name: "Space Drone", number: 12, file: 'Space Drone.mp3' },
     { name: "The Universe", number: 13, file: 'The Universe.mp3' },
   ];
-    
+
   public playingBool: boolean = false;
   private volume: number = 1;
   public visibleVolume: number = Math.trunc(this.volume * 100);
@@ -35,8 +36,11 @@ export class GameTurnerPage implements OnInit {
   public newPlayerNr: number = 0;
   public newPlayerColor: string = "#ffffff";
   public currentSongTitle: string = "null";
+  public importedPlayerList: string = "";
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+  ) {
     this.audioPlayer.loop = true;
     setInterval(() => {
       this.updateTimer();
@@ -45,6 +49,16 @@ export class GameTurnerPage implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  downloadPlayerList() {
+    const arrayAsString = JSON.stringify(this.playerList);
+    copy(arrayAsString);
+  }
+
+  readPlayerList(newPlayers:string) {
+    // console.debug(newPlayers);
+    this.playerList = JSON.parse(newPlayers);
   }
 
   addPlayer(name: string, songNr: number, color: string) {
@@ -70,7 +84,7 @@ export class GameTurnerPage implements OnInit {
   }
 
   nextPlayer() {
-    console.debug("nextPlayer");
+    // console.debug("nextPlayer");
     if (this.playerList.length > 1) {
       const lastNr = this.playerList.length - 1;
       const firstElement = this.playerList[0];
@@ -83,7 +97,7 @@ export class GameTurnerPage implements OnInit {
   }
 
   prevPlayer() {
-    console.debug("prevPlayer");
+    // console.debug("prevPlayer");
     if (this.playerList.length > 1) {
       const lastNr = this.playerList.length - 1;
       const lastElement = this.playerList[lastNr];
@@ -96,11 +110,11 @@ export class GameTurnerPage implements OnInit {
   }
 
   updatePageBasedOnThePlayer(autoPlay: boolean = true) {
-    console.debug("updatePageBasedOnThePlayer");
+    // console.debug("updatePageBasedOnThePlayer");
     if (this.playerList.length >= 1) {
       const usersSong = this.songList.find(song => song.number === this.playerList[0].songNr);
       if (usersSong) {
-        console.debug(`Playing song: ${usersSong.file}`);
+        // console.debug(`Playing song: ${usersSong.file}`);
         if (autoPlay) this.playSong(usersSong);
       } else {
         console.log("No matching song found");

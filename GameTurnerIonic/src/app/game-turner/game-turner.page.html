@@ -128,6 +128,19 @@
                     >
                   </ion-col>
                 </ion-row>
+                <ion-row>
+                  <ion-col>
+                    <ion-input class="limitedChar" placeholder="[ USER CODE ]" [(ngModel)]="importedPlayerList"></ion-input>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>
+                    <ion-button fill="clear" (click)="downloadPlayerList()">[ DOWNLOAD ]</ion-button>
+                  </ion-col>
+                  <ion-col>
+                    <ion-button fill="clear" (click)="readPlayerList(importedPlayerList)">[ IMPORT USERS ]</ion-button>
+                  </ion-col>
+                </ion-row>
               </ion-col>
             </ion-row>
           </ion-col>

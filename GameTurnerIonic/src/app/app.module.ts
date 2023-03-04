@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { HttpClientModule } from '@angular/common/http';
+// import { FileChooser } from '@ionic-native/file-chooser/ngx';
 
 @NgModule({
   declarations: [AppComponent],

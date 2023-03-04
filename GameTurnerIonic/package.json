@@ -25,6 +25,7 @@
     "@capacitor/keyboard": "4.1.1",
     "@capacitor/status-bar": "4.1.1",
     "@ionic/angular": "^6.1.9",
+    "copy-to-clipboard": "^3.3.3",
     "firebase": "^9.17.2",
     "fs": "^0.0.1-security",
     "ionicons": "^6.0.3",
