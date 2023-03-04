@@ -1,0 +1,155 @@
+<ion-content>
+  <ion-grid>
+    <ion-row class="fullLenght">
+      <ion-col size="4" class="rightBorderColorCol">
+        <ion-row class="bottomBorderColorRow">
+          <ion-title class="mainTitle">Game Turner</ion-title>
+          <ion-title class="mainTitle">Ionic Edition</ion-title>
+        </ion-row>
+        <ion-row>
+          <ion-col class="button-col" size="4"
+            ><ion-button class="a100" fill="clear" (click)="prevPlayer()"
+              >[ PREV ]</ion-button
+            ></ion-col
+          >
+          <ion-col class="button-col" size="4">
+            <ion-button
+              class="a100"
+              fill="clear"
+              [hidden]="playingBool"
+              (click)="playPauseSong()"
+            >
+              [ PLAY ]</ion-button
+            >
+            <ion-button
+              class="a100"
+              fill="clear"
+              [hidden]="!playingBool"
+              (click)="playPauseSong()"
+            >
+              [ PAUSE ]</ion-button
+            >
+            <ion-button class="a100" fill="clear">{{songTimer}}</ion-button>
+          </ion-col>
+          <ion-col class="button-col" size="4"
+            ><ion-button class="a100" (click)="nextPlayer()" fill="clear"
+              >[ NEXT ]</ion-button
+            ></ion-col
+          >
+        </ion-row>
+        <ion-row class="bottomBorderColorRow">
+          <ion-col class="button-col" size="4"
+            ><ion-button class="a100" (click)="lowerVolume()" fill="clear"
+              >[ DOWN ]</ion-button
+            >
+          </ion-col>
+          <ion-col class="button-col" size="4"
+            ><ion-button class="a100" fill="clear">
+              {{visibleVolume}}%</ion-button
+            >
+          </ion-col>
+          <ion-col class="button-col" size="4"
+            ><ion-button class="a100" (click)="raiseVolume()" fill="clear"
+              >[ HIGH ]</ion-button
+            >
+          </ion-col>
+        </ion-row>
+        <ion-row class="bottomBorderColorRow">
+          <ion-col>
+            <ion-title>[ CURRENT SONG ]</ion-title>
+          </ion-col>
+          <ion-col>
+            <ion-title class="limitedChar">{{currentSongTitle}}</ion-title>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-title>Player Turn:</ion-title>
+            <ion-row *ngFor="let player of playerList">
+              <ion-col>
+                <ion-row>
+                  <ion-col><ion-title>[ SONG NR. ] {{player.songNr}}</ion-title></ion-col>
+                  <ion-col
+                    ><ion-title class="limitedChar">{{player.name}}</ion-title>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col
+                    ><ion-button
+                      class="smallerButton"
+                      fill="clear"
+                      (click)="removePlayer(player.name)"
+                      >[ REMOVE ]</ion-button
+                    >
+                  </ion-col>
+                  <ion-col
+                    ><ion-button
+                      fill="clear"
+                      *ngIf="player.selected"
+                      (click)="updatePageBasedOnThePlayer()"
+                      >[ SELECTED ]</ion-button
+                    >
+                  </ion-col>
+                </ion-row>
+              </ion-col>
+            </ion-row>
+
+            <ion-row class="topBorderColorRow">
+              <ion-col>
+                <ion-row>
+                  <ion-col>
+                    <ion-input [(ngModel)]="newPlayerName"
+                      ><ion-label>[ NAME ]</ion-label>
+                    </ion-input>
+                  </ion-col>
+                  <ion-col>
+                    <ion-input
+                      type="number"
+                      value="0"
+                      min="0"
+                      [(ngModel)]="newPlayerNr"
+                      ><ion-label>[ SONG NR. ]</ion-label>
+                    </ion-input>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>
+                    <ion-input value="#ffffff" [(ngModel)]="newPlayerColor"
+                      ><ion-label>[ COLOR ]</ion-label>
+                    </ion-input>
+                  </ion-col>
+                  <ion-col>
+                    <ion-button
+                      fill="clear"
+                      class="removePlayer"
+                      (click)="addPlayer(newPlayerName, newPlayerNr, newPlayerColor)"
+                    >
+                      [ ADD ]</ion-button
+                    >
+                  </ion-col>
+                </ion-row>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+      <ion-col size="8">
+        <ion-row *ngFor="let song of songList">
+          <ion-col size="2">
+            <ion-input value="{{song.number}}" type="number" readonly="true"
+              ><ion-label>[ NR. ]</ion-label></ion-input
+            >
+          </ion-col>
+          <ion-col size="2">
+            <ion-button fill="clear" (click)="playSong(song)"
+              >[ PLAY ]</ion-button
+            >
+          </ion-col>
+          <ion-col>
+            <ion-button fill="clear">{{song.name}}</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

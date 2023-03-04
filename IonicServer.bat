@@ -1,0 +1,2 @@
+cd GameTurnerIonic
+ionic serve

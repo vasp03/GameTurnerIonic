@@ -1,0 +1,66 @@
+:root {
+  --highLightColor: white;
+}
+
+ion-content,
+ion-header,
+ion-title,
+ion-button,
+ion-title,
+ion-label {
+  font-family: PlexMonoExtraLight;
+  color: var(--highLightColor, white);
+}
+
+ion-grid {
+  padding: 0px;
+}
+
+.rightBorderColorCol {
+  border-right: 2px dashed var(--highLightColor, white) !important;
+  height: 100%;
+  min-height: 100vh;
+}
+
+.bottomBorderColorRow {
+  border-bottom: 2px dashed var(--highLightColor, white) !important;
+  padding-bottom: 1vh;
+}
+
+.topBorderColorRow {
+  border-top: 2px dashed var(--highLightColor, white) !important;
+  padding-bottom: 1vh;
+}
+
+.mainTitle {
+  font-size: xx-large;
+}
+
+ion-button {
+  color: var(--highLightColor, white);
+  font-size: x-large;
+}
+
+.center {
+  float: center;
+}
+
+.a100 {
+  width: 100%;
+}
+
+.removePlayer {
+  width: 100px;
+}
+
+.limitedChar {
+  width: 200px; /* set the width to the desired character limit */
+  white-space: nowrap; /* prevent the text from wrapping */
+  overflow: hidden; /* hide any overflowed text */
+  text-overflow: ellipsis; /* add an ellipsis at the end of the text */
+}
+
+ion-button {
+  --padding-start: 10px;
+  --padding-end: 10px;
+}

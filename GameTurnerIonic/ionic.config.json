@@ -1,0 +1,7 @@
+{
+  "name": "GameTurnerIonic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
