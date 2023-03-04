@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-game-turner',
   templateUrl: './game-turner.page.html',
-  styleUrls: ['./game-turner.page.scss'],
+  styleUrls: ['./game-turner.page.scss']
 })
 
 export class GameTurnerPage implements OnInit {
@@ -23,7 +23,7 @@ export class GameTurnerPage implements OnInit {
     { name: "Space Drone", number: 12, file: 'Space Drone.mp3' },
     { name: "The Universe", number: 13, file: 'The Universe.mp3' },
   ];
-
+    
   public playingBool: boolean = false;
   private volume: number = 1;
   public visibleVolume: number = Math.trunc(this.volume * 100);
@@ -35,7 +35,6 @@ export class GameTurnerPage implements OnInit {
   public newPlayerNr: number = 0;
   public newPlayerColor: string = "#ffffff";
   public currentSongTitle: string = "null";
-  private firstTime: boolean = true;
 
   constructor(private http: HttpClient) {
     this.audioPlayer.loop = true;

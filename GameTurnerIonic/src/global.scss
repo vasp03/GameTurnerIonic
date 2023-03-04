@@ -32,3 +32,17 @@
   src: url("./assets/fonts/IBMPlexMono-ExtraLight.ttf");
 }
 
+.dark-mode {
+  --ion-color-primary: #6a0dad;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-shade: #4b0966;
+  --ion-color-primary-tint: #8627a9;
+
+  --ion-color-secondary: #4c4c4c;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-shade: #3c3c3c;
+  --ion-color-secondary-tint: #5c5c5c;
+
+  --ion-background-color: #121212;
+  --ion-text-color: #ffffff;
+}
