@@ -31,12 +31,13 @@ export class GameTurnerPage implements OnInit {
   private directoryPath: string = "assets/songs/";
   private audioPlayer = new Audio();
   public songTimer: string = "0:00";
-  public playerList: Array<{ name: string; songNr: number; selected: boolean; color: string; }> = [];
+  public playerList: Array<{ name: string; songNr: number; selected: boolean; color: string; money: number }> = [];
   public newPlayerName: string = "";
   public newPlayerNr: number = 0;
   public newPlayerColor: string = "#ffffff";
   public currentSongTitle: string = "null";
   public importedPlayerList: string = "";
+  public tabMenu: string = "songList";
 
   constructor(
     private http: HttpClient,
@@ -51,6 +52,10 @@ export class GameTurnerPage implements OnInit {
   ngOnInit() {
   }
 
+  changeTabMenu(newTab:string){
+    this.tabMenu = newTab;
+  }
+
   downloadPlayerList() {
     const arrayAsString = JSON.stringify(this.playerList);
     copy(arrayAsString);
@@ -61,7 +66,33 @@ export class GameTurnerPage implements OnInit {
     this.playerList = JSON.parse(newPlayers);
   }
 
-  addPlayer(name: string, songNr: number, color: string) {
+  tradeMoney(player1Name:string, player2Name:string, tradeAmount:number){
+    var player1 = this.playerList.find(player => player.name == player1Name);
+    var player2 = this.playerList.find(player => player.name == player2Name);
+
+    if (player1 && player2) {
+      player1.money-=tradeAmount;
+      player2.money+=tradeAmount;
+    }
+  }
+
+  removeMoney(playerName:string, tradeAmount:number){
+    var player = this.playerList.find(player => player.name == playerName);
+
+    if (player) {
+      player.money-=tradeAmount;
+    }
+  }
+
+  addMoney(playerName:string, tradeAmount:number){
+    var player = this.playerList.find(player => player.name == playerName);
+
+    if (player) {
+      player.money+=tradeAmount;
+    }
+  }
+
+  addPlayer(name: string, songNr: number, color: string, money:number) {
     if (
       name != "" &&
       songNr != 0 &&
@@ -70,7 +101,7 @@ export class GameTurnerPage implements OnInit {
       color.includes("#") &&
       color.length == 7
     ) {
-      this.playerList.push({ name: name, songNr: songNr, selected: false, color: color })
+      this.playerList.push({ name: name, songNr: songNr, selected: false, color: color, money: money})
     }
     this.updatePageBasedOnThePlayer(false);
   }

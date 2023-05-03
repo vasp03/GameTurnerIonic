@@ -68,7 +68,11 @@
             <ion-row *ngFor="let player of playerList">
               <ion-col>
                 <ion-row>
-                  <ion-col><ion-title>[ SONG NR. ] {{player.songNr}}</ion-title></ion-col>
+                  <ion-col
+                    ><ion-title
+                      >[ SONG NR. ] {{player.songNr}}</ion-title
+                    ></ion-col
+                  >
                   <ion-col
                     ><ion-title class="limitedChar">{{player.name}}</ion-title>
                   </ion-col>
@@ -122,7 +126,7 @@
                     <ion-button
                       fill="clear"
                       class="removePlayer"
-                      (click)="addPlayer(newPlayerName, newPlayerNr, newPlayerColor)"
+                      (click)="addPlayer(newPlayerName, newPlayerNr, newPlayerColor, 0)"
                     >
                       [ ADD ]</ion-button
                     >
@@ -130,15 +134,25 @@
                 </ion-row>
                 <ion-row>
                   <ion-col>
-                    <ion-input class="limitedChar" placeholder="[ USER CODE ]" [(ngModel)]="importedPlayerList"></ion-input>
+                    <ion-input
+                      class="limitedChar"
+                      placeholder="[ USER CODE ]"
+                      [(ngModel)]="importedPlayerList"
+                    ></ion-input>
                   </ion-col>
                 </ion-row>
                 <ion-row>
                   <ion-col>
-                    <ion-button fill="clear" (click)="downloadPlayerList()">[ DOWNLOAD ]</ion-button>
+                    <ion-button fill="clear" (click)="downloadPlayerList()"
+                      >[ DOWNLOAD ]</ion-button
+                    >
                   </ion-col>
                   <ion-col>
-                    <ion-button fill="clear" (click)="readPlayerList(importedPlayerList)">[ IMPORT USERS ]</ion-button>
+                    <ion-button
+                      fill="clear"
+                      (click)="readPlayerList(importedPlayerList)"
+                      >[ IMPORT USERS ]</ion-button
+                    >
                   </ion-col>
                 </ion-row>
               </ion-col>
@@ -147,7 +161,27 @@
         </ion-row>
       </ion-col>
       <ion-col size="8">
-        <ion-row *ngFor="let song of songList">
+        <ion-row>
+          <ion-col size="6">
+            <ion-button
+              (click)="changeTabMenu('songList')"
+              class="fullButton"
+              fill="clear"
+              [disabled]="tabMenu=='songList'"
+              >Song List</ion-button
+            >
+          </ion-col>
+          <ion-col size="6">
+            <ion-button
+              (click)="changeTabMenu('scorePage')"
+              class="fullButton"
+              fill="clear"
+              [disabled]="tabMenu=='scorePage'"
+              >Score Page</ion-button
+            >
+          </ion-col>
+        </ion-row>
+        <ion-row *ngFor="let song of songList" [hidden]="tabMenu!='songList'">
           <ion-col size="2">
             <ion-input value="{{song.number}}" type="number" readonly="true"
               ><ion-label>[ NR. ]</ion-label></ion-input
@@ -161,6 +195,29 @@
           <ion-col>
             <ion-button fill="clear">{{song.name}}</ion-button>
           </ion-col>
+        </ion-row>
+        <ion-row [hidden]="tabMenu!='scorePage'">
+          <ion-row>
+            <ion-col></ion-col>
+            <ion-col></ion-col>
+            <ion-col></ion-col>
+            <ion-col></ion-col>
+          </ion-row>
+          <ion-row *ngFor="let player of playerList">
+            <ion-col>
+              <ion-row>
+                <ion-col>
+                  <ion-title>[ SONG NR. ] {{player.songNr}}</ion-title>
+                </ion-col>
+                <ion-col>
+                  <ion-title class="limitedChar">{{player.name}}</ion-title>
+                </ion-col>
+                <ion-col>
+                  <ion-title>Money: {{player.money}}</ion-title>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+          </ion-row>
         </ion-row>
       </ion-col>
     </ion-row>
