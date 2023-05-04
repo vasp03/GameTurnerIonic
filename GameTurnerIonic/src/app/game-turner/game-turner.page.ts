@@ -49,6 +49,8 @@ export class GameTurnerPage implements OnInit {
   ) {}
 
   async ngOnInit() {
+    
+
     this.audioPlayer.loop = true;
 
     this.retrievFromCookie();
@@ -63,7 +65,7 @@ export class GameTurnerPage implements OnInit {
 
   async saveToCookie(){
     var arrayString = JSON.stringify(this.playerList);
-    document.cookie = "gamerTurnerCookie=" + arrayString;
+    document.cookie = "gamerTurnerCookie=" + arrayString + "; SameSite=Strict";
   }
 
   async retrievFromCookie(){
@@ -73,7 +75,7 @@ export class GameTurnerPage implements OnInit {
 
   async saveVolumeToCookie(){
     var arrayString = JSON.stringify(this.volume);
-    document.cookie = "gamerTurnerCookieVolume=" + arrayString;
+    document.cookie = "gamerTurnerCookieVolume=" + arrayString + "; SameSite=Strict";
   }
 
   async getVolumeFromCookie(){
