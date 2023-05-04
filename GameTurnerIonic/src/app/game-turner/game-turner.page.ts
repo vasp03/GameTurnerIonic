@@ -38,21 +38,38 @@ export class GameTurnerPage implements OnInit {
   public currentSongTitle: string = "No Song Selected";
   public importedPlayerList: string = "";
   public tabMenu: string = "songList";
-  public player1Selector:string = "";
-  public player2Selector:string = "";
-  public moneyTransfer:number = 0;
-  public playerSelector:string = "";
-  public moneyAddRemover:number = 0;
+  public player1Selector: string = "";
+  public player2Selector: string = "";
+  public moneyTransfer: number = 0;
+  public playerSelector: string = "";
+  public moneyAddRemover: number = 0;
+  public numberInputStep: number = 10;
+  public startCash: number = 0;
 
   constructor(
     private http: HttpClient,
-  ) {}
+  ) { }
 
   async ngOnInit() {
     this.audioPlayer.loop = true;
 
-    this.retrievFromCookie();
-    this.getVolumeFromCookie();
+    try {
+      this.retrievFromCookie();
+    } catch (error) {
+      // console.log(error);
+    }
+
+    try {
+      this.getVolumeFromCookie();
+    } catch (error) {
+      // console.log(error);
+    }
+
+    try {
+      this.getVolumeFromCookie();
+    } catch (error) {
+      // console.log(error);
+    }
 
     setInterval(() => {
       this.updateTimer();
@@ -61,28 +78,40 @@ export class GameTurnerPage implements OnInit {
     }, 500);
   }
 
-  async saveToCookie(){
+  resetCookies(){
+    var arrayString = JSON.stringify([1, "1", "songList", 0]);
+    document.cookie = "gamerTurnerCookieVolume=" + arrayString + "; SameSite=Strict";
+    var arrayString = JSON.stringify([]);
+    document.cookie = "gamerTurnerCookie=" + arrayString + "; SameSite=Strict";
+    window.location.reload();
+  }
+
+  async saveToCookie() {
     var arrayString = JSON.stringify(this.playerList);
     document.cookie = "gamerTurnerCookie=" + arrayString + "; SameSite=Strict";
   }
 
-  async retrievFromCookie(){
+  async retrievFromCookie() {
     var cookieValue = document.cookie.replace(/(?:(?:^|.*;\s*)gamerTurnerCookie\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     this.playerList = JSON.parse(cookieValue);
   }
 
-  async saveVolumeToCookie(){
-    var arrayString = JSON.stringify(this.volume);
+  async saveVolumeToCookie() {
+    var arrayString = JSON.stringify([this.volume, this.numberInputStep, this.tabMenu, this.startCash]);
     document.cookie = "gamerTurnerCookieVolume=" + arrayString + "; SameSite=Strict";
   }
 
-  async getVolumeFromCookie(){
+  async getVolumeFromCookie() {
     var cookieValue = document.cookie.replace(/(?:(?:^|.*;\s*)gamerTurnerCookieVolume\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-    this.volume = +JSON.parse(cookieValue);
+    var parsed = JSON.parse(cookieValue);
+    this.volume = parsed[0];
+    this.numberInputStep = parsed[1];
+    this.tabMenu = parsed[2];
+    this.startCash = parsed[3]
     this.updateVolume();
   }
 
-  changeTabMenu(newTab:string){
+  changeTabMenu(newTab: string) {
     this.tabMenu = newTab;
   }
 
@@ -91,37 +120,37 @@ export class GameTurnerPage implements OnInit {
     copy(arrayAsString);
   }
 
-  readPlayerList(newPlayers:string) {
+  readPlayerList(newPlayers: string) {
     this.playerList = JSON.parse(newPlayers);
   }
 
-  tradeMoney(){
+  tradeMoney() {
     var player1 = this.playerList.find(player => player.name == this.player1Selector);
     var player2 = this.playerList.find(player => player.name == this.player2Selector);
 
-    if (player1 && player2 && player1.money>=this.moneyTransfer && this.moneyTransfer>=1) {
-      player1.money-=Math.trunc(this.moneyTransfer);
-      player2.money+=Math.trunc(this.moneyTransfer);
+    if (player1 && player2 && player1.money >= this.moneyTransfer && this.moneyTransfer >= 1) {
+      player1.money -= Math.trunc(this.moneyTransfer);
+      player2.money += Math.trunc(this.moneyTransfer);
     }
   }
 
-  removeMoney(){
+  removeMoney() {
     var player = this.playerList.find(player => player.name == this.playerSelector);
 
-    if (player && player.money>=this.moneyAddRemover && this.moneyAddRemover>=1) {
-      player.money-=Math.trunc(this.moneyAddRemover);
+    if (player && player.money >= this.moneyAddRemover && this.moneyAddRemover >= 1) {
+      player.money -= Math.trunc(this.moneyAddRemover);
     }
   }
 
-  addMoney(){
+  addMoney() {
     var player = this.playerList.find(player => player.name == this.playerSelector);
 
-    if (player && this.moneyAddRemover>=1) {
-      player.money+=Math.trunc(this.moneyAddRemover);
+    if (player && this.moneyAddRemover >= 1) {
+      player.money += Math.trunc(this.moneyAddRemover);
     }
   }
 
-  addPlayer(name: string, songNr: number, color: string, money:number) {
+  addPlayer(name: string, songNr: number, color: string, money: number) {
     if (
       name != "" &&
       songNr != 0 &&
@@ -130,7 +159,7 @@ export class GameTurnerPage implements OnInit {
       color.includes("#") &&
       color.length == 7
     ) {
-      this.playerList.push({ name: name, songNr: songNr, selected: false, color: color, money: money})
+      this.playerList.push({ name: name, songNr: songNr, selected: false, color: color, money: money })
     }
     this.updatePageBasedOnThePlayer(false);
   }
@@ -196,7 +225,7 @@ export class GameTurnerPage implements OnInit {
     this.audioPlayer.volume = this.volume;
   }
 
-  updateVolume(){
+  updateVolume() {
     this.visibleVolume = Math.round(this.volume * 100);
     this.audioPlayer.volume = this.volume;
   }

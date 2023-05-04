@@ -128,7 +128,7 @@
                     <ion-button
                       fill="clear"
                       class="removePlayer"
-                      (click)="addPlayer(newPlayerName, newPlayerNr, newPlayerColor, 0)"
+                      (click)="addPlayer(newPlayerName, newPlayerNr, newPlayerColor, startCash)"
                     >
                       [ ADD ]</ion-button
                     >
@@ -164,7 +164,7 @@
       </ion-col>
       <ion-col size="8">
         <ion-row class="bottomBorderColorRow">
-          <ion-col size="6">
+          <ion-col size="4">
             <ion-button
               (click)="changeTabMenu('songList')"
               class="fullButton"
@@ -173,7 +173,7 @@
               >Song List</ion-button
             >
           </ion-col>
-          <ion-col size="6" class="leftBorderColorRow">
+          <ion-col size="4" class="leftBorderColorRow">
             <ion-button
               (click)="changeTabMenu('scorePage')"
               class="fullButton"
@@ -182,11 +182,25 @@
               >Score Page</ion-button
             >
           </ion-col>
+          <ion-col size="4" class="leftBorderColorRow">
+            <ion-button
+              (click)="changeTabMenu('Settings')"
+              class="fullButton"
+              fill="clear"
+              [disabled]="tabMenu=='Settings'"
+              >Settings</ion-button
+            >
+          </ion-col>
         </ion-row>
         <ion-row *ngFor="let song of songList" [hidden]="tabMenu!='songList'">
           <ion-col size="2">
-            <ion-input value="{{song.number}}" type="number" readonly="true" min="0" step ="1" pattern="[0-9]"
-              ><ion-label>[ NR. ]</ion-label></ion-input
+            <ion-button fill="clear"
+              >[ NR. ]</ion-button
+            >
+          </ion-col>
+          <ion-col size="2">
+            <ion-button fill="clear"
+              >{{song.number}}</ion-button
             >
           </ion-col>
           <ion-col size="2">
@@ -201,28 +215,20 @@
         <ion-row [hidden]="tabMenu!='scorePage'">
           <ion-row class="a100">
             <ion-col>
-              <ion-list>
-                <ion-item>
-                  <ion-select [(ngModel)]="player1Selector" interface="popover" placeholder="Select Player">
-                    <ion-select-option *ngFor="let player of playerList" value="{{player.name}}">{{player.name}}</ion-select-option>
-                  </ion-select>
-                </ion-item>
-              </ion-list>
+              <ion-select [(ngModel)]="player1Selector" interface="popover" placeholder="Select Player" label="Floating label" label-placement="floating" interface="popover">
+                <ion-select-option *ngFor="let player of playerList" value="{{player.name}}">{{player.name}}</ion-select-option>
+              </ion-select>
             </ion-col>
             <ion-col>
-              <ion-input [(ngModel)]="moneyTransfer" type="number" min="0" step="1" pattern="[0-9]"></ion-input>
+              <ion-input [(ngModel)]="moneyTransfer" type="number" min="0" step="{{numberInputStep}}" pattern="[0-9]"></ion-input>
             </ion-col>
             <ion-col>
               <ion-title>[ --> ]</ion-title>
             </ion-col>
             <ion-col>
-              <ion-list>
-                <ion-item>
-                  <ion-select [(ngModel)]="player2Selector" interface="popover" placeholder="Select Player">
-                    <ion-select-option *ngFor="let player of playerList" value="{{player.name}}">{{player.name}}</ion-select-option>
-                  </ion-select>
-                </ion-item>
-              </ion-list>
+              <ion-select [(ngModel)]="player2Selector" interface="popover" placeholder="Select Player" label="Floating label" label-placement="floating" interface="popover">
+                <ion-select-option *ngFor="let player of playerList" value="{{player.name}}">{{player.name}}</ion-select-option>
+              </ion-select>
             </ion-col>
             <ion-col>
               <ion-button fill="clear" (click)="tradeMoney()">Transfer Money</ion-button>
@@ -230,16 +236,12 @@
           </ion-row>
           <ion-row class="bottomBorderColorRow a100">
             <ion-col>
-              <ion-list>
-                <ion-item>
-                  <ion-select [(ngModel)]="playerSelector" interface="popover" placeholder="Select Player">
-                    <ion-select-option *ngFor="let player of playerList" value="{{player.name}}">{{player.name}}</ion-select-option>
-                  </ion-select>
-                </ion-item>
-              </ion-list>
+              <ion-select [(ngModel)]="playerSelector" interface="popover" placeholder="Select Player" label="Floating label" label-placement="floating" interface="popover">
+                <ion-select-option *ngFor="let player of playerList" value="{{player.name}}">{{player.name}}</ion-select-option>
+              </ion-select>
             </ion-col>
             <ion-col>
-              <ion-input [(ngModel)]="moneyAddRemover" type="number" min="0" step="1" pattern="[0-9]"></ion-input>
+              <ion-input [(ngModel)]="moneyAddRemover" type="number" min="0" step="{{numberInputStep}}"></ion-input>
             </ion-col>
             <ion-col>
               <ion-button fill="clear" (click)="addMoney()">Add Money</ion-button>
@@ -263,6 +265,41 @@
               </ion-row>
             </ion-col>
           </ion-row>
+        </ion-row>
+        <ion-row [hidden]="tabMenu!='Settings'">
+          <ion-col>
+            <ion-row>
+              <ion-col>
+                <ion-title>Number Scroll Step:</ion-title>
+              </ion-col>
+              <ion-col>
+                <ion-select [(ngModel)]="numberInputStep" label="Floating label" label-placement="floating" interface="popover" >
+                  <ion-select-option value="1">1</ion-select-option>
+                  <ion-select-option value="10">10</ion-select-option>
+                  <ion-select-option value="100">100</ion-select-option>
+                  <ion-select-option value="1000">1000</ion-select-option>
+                  <ion-select-option value="10000">10000</ion-select-option>
+                  <ion-select-option value="100000">100000</ion-select-option>
+                </ion-select>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-title>Starting Cash For New Players:</ion-title>
+              </ion-col>
+              <ion-col>
+                <ion-input [(ngModel)]="startCash" type="number">
+                </ion-input>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-button fill="clear" class="a100" (click)="resetCookies()">
+                  <ion-label>Reset All Cookies</ion-label>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-col>
         </ion-row>
       </ion-col>
     </ion-row>
