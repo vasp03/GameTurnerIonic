@@ -111,6 +111,8 @@
                       type="number"
                       value="0"
                       min="0"
+                      step="1"
+                      pattern="[0-9]"
                       [(ngModel)]="newPlayerNr"
                       ><ion-label>[ SONG NR. ]</ion-label>
                     </ion-input>
@@ -183,7 +185,7 @@
         </ion-row>
         <ion-row *ngFor="let song of songList" [hidden]="tabMenu!='songList'">
           <ion-col size="2">
-            <ion-input value="{{song.number}}" type="number" readonly="true"
+            <ion-input value="{{song.number}}" type="number" readonly="true" min="0" step ="1" pattern="[0-9]"
               ><ion-label>[ NR. ]</ion-label></ion-input
             >
           </ion-col>
@@ -208,7 +210,7 @@
               </ion-list>
             </ion-col>
             <ion-col>
-              <ion-input [(ngModel)]="moneyTransfer" type="number"></ion-input>
+              <ion-input [(ngModel)]="moneyTransfer" type="number" min="0" step="1" pattern="[0-9]"></ion-input>
             </ion-col>
             <ion-col>
               <ion-title>[ --> ]</ion-title>
@@ -237,7 +239,7 @@
               </ion-list>
             </ion-col>
             <ion-col>
-              <ion-input [(ngModel)]="moneyAddRemover" type="number"></ion-input>
+              <ion-input [(ngModel)]="moneyAddRemover" type="number" min="0" step="1" pattern="[0-9]"></ion-input>
             </ion-col>
             <ion-col>
               <ion-button fill="clear" (click)="addMoney()">Add Money</ion-button>

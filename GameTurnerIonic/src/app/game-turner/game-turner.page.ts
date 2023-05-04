@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as copy from 'copy-to-clipboard';
 import { Storage } from '@ionic/storage-angular';
+import { delay } from 'rxjs';
 
 @Component({
   selector: 'app-game-turner',
@@ -64,7 +65,7 @@ export class GameTurnerPage implements OnInit {
       this.saveToCookie();
       this.saveVolumeToCookie();
     }, 500);
-    this.updatePageBasedOnThePlayer();
+    // this.updatePageBasedOnThePlayer();
   }
 
   async saveToCookie(){
@@ -103,33 +104,29 @@ export class GameTurnerPage implements OnInit {
     this.playerList = JSON.parse(newPlayers);
   }
 
-  wireTransfer(){
-    console.log(this.player1Selector, this.player2Selector)
-  }
-
   tradeMoney(){
     var player1 = this.playerList.find(player => player.name == this.player1Selector);
     var player2 = this.playerList.find(player => player.name == this.player2Selector);
 
-    if (player1 && player2) {
-      player1.money-=this.moneyTransfer;
-      player2.money+=this.moneyTransfer;
+    if (player1 && player2 && player1.money>=this.moneyTransfer && this.moneyTransfer>=1) {
+      player1.money-=Math.trunc(this.moneyTransfer);
+      player2.money+=Math.trunc(this.moneyTransfer);
     }
   }
 
   removeMoney(){
     var player = this.playerList.find(player => player.name == this.playerSelector);
 
-    if (player) {
-      player.money-=this.moneyAddRemover;
+    if (player && player.money>=this.moneyAddRemover && this.moneyAddRemover>=1) {
+      player.money-=Math.trunc(this.moneyAddRemover);
     }
   }
 
   addMoney(){
     var player = this.playerList.find(player => player.name == this.playerSelector);
 
-    if (player) {
-      player.money+=this.moneyAddRemover;
+    if (player && this.moneyAddRemover>=1) {
+      player.money+=Math.trunc(this.moneyAddRemover);
     }
   }
 
