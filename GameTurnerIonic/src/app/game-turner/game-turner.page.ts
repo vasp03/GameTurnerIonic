@@ -38,6 +38,11 @@ export class GameTurnerPage implements OnInit {
   public currentSongTitle: string = "null";
   public importedPlayerList: string = "";
   public tabMenu: string = "songList";
+  public player1Selector:string = "";
+  public player2Selector:string = "";
+  public moneyTransfer:number = 0;
+  public playerSelector:string = "";
+  public moneyAddRemover:number = 0;
 
   constructor(
     private http: HttpClient,
@@ -62,33 +67,36 @@ export class GameTurnerPage implements OnInit {
   }
 
   readPlayerList(newPlayers:string) {
-    // console.debug(newPlayers);
     this.playerList = JSON.parse(newPlayers);
   }
 
-  tradeMoney(player1Name:string, player2Name:string, tradeAmount:number){
-    var player1 = this.playerList.find(player => player.name == player1Name);
-    var player2 = this.playerList.find(player => player.name == player2Name);
+  wireTransfer(){
+    console.log(this.player1Selector, this.player2Selector)
+  }
+
+  tradeMoney(){
+    var player1 = this.playerList.find(player => player.name == this.player1Selector);
+    var player2 = this.playerList.find(player => player.name == this.player2Selector);
 
     if (player1 && player2) {
-      player1.money-=tradeAmount;
-      player2.money+=tradeAmount;
+      player1.money-=this.moneyTransfer;
+      player2.money+=this.moneyTransfer;
     }
   }
 
-  removeMoney(playerName:string, tradeAmount:number){
-    var player = this.playerList.find(player => player.name == playerName);
+  removeMoney(){
+    var player = this.playerList.find(player => player.name == this.playerSelector);
 
     if (player) {
-      player.money-=tradeAmount;
+      player.money-=this.moneyAddRemover;
     }
   }
 
-  addMoney(playerName:string, tradeAmount:number){
-    var player = this.playerList.find(player => player.name == playerName);
+  addMoney(){
+    var player = this.playerList.find(player => player.name == this.playerSelector);
 
     if (player) {
-      player.money+=tradeAmount;
+      player.money+=this.moneyAddRemover;
     }
   }
 

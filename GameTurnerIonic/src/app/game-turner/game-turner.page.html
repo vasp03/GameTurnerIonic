@@ -161,7 +161,7 @@
         </ion-row>
       </ion-col>
       <ion-col size="8">
-        <ion-row>
+        <ion-row class="bottomBorderColorRow">
           <ion-col size="6">
             <ion-button
               (click)="changeTabMenu('songList')"
@@ -171,7 +171,7 @@
               >Song List</ion-button
             >
           </ion-col>
-          <ion-col size="6">
+          <ion-col size="6" class="leftBorderColorRow">
             <ion-button
               (click)="changeTabMenu('scorePage')"
               class="fullButton"
@@ -197,13 +197,56 @@
           </ion-col>
         </ion-row>
         <ion-row [hidden]="tabMenu!='scorePage'">
-          <ion-row>
-            <ion-col></ion-col>
-            <ion-col></ion-col>
-            <ion-col></ion-col>
-            <ion-col></ion-col>
+          <ion-row class="a100">
+            <ion-col>
+              <ion-list>
+                <ion-item>
+                  <ion-select [(ngModel)]="player1Selector" interface="popover" placeholder="Select Player">
+                    <ion-select-option *ngFor="let player of playerList" value="{{player.name}}">{{player.name}}</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </ion-list>
+            </ion-col>
+            <ion-col>
+              <ion-input [(ngModel)]="moneyTransfer" type="number"></ion-input>
+            </ion-col>
+            <ion-col>
+              <ion-title>[ --> ]</ion-title>
+            </ion-col>
+            <ion-col>
+              <ion-list>
+                <ion-item>
+                  <ion-select [(ngModel)]="player2Selector" interface="popover" placeholder="Select Player">
+                    <ion-select-option *ngFor="let player of playerList" value="{{player.name}}">{{player.name}}</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </ion-list>
+            </ion-col>
+            <ion-col>
+              <ion-button fill="clear" (click)="tradeMoney()">Transfer Money</ion-button>
+            </ion-col>
           </ion-row>
-          <ion-row *ngFor="let player of playerList">
+          <ion-row class="bottomBorderColorRow a100">
+            <ion-col>
+              <ion-list>
+                <ion-item>
+                  <ion-select [(ngModel)]="playerSelector" interface="popover" placeholder="Select Player">
+                    <ion-select-option *ngFor="let player of playerList" value="{{player.name}}">{{player.name}}</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </ion-list>
+            </ion-col>
+            <ion-col>
+              <ion-input [(ngModel)]="moneyAddRemover" type="number"></ion-input>
+            </ion-col>
+            <ion-col>
+              <ion-button fill="clear" (click)="addMoney()">Add Money</ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button fill="clear" (click)="removeMoney()">Remove Money</ion-button>
+            </ion-col>
+          </ion-row>
+          <ion-row *ngFor="let player of playerList" class="a100">
             <ion-col>
               <ion-row>
                 <ion-col>

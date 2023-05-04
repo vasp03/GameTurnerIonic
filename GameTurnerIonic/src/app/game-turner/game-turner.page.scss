@@ -32,6 +32,11 @@ ion-grid {
   padding-bottom: 1vh;
 }
 
+.leftBorderColorRow {
+  border-left: 2px dashed var(--highLightColor, white) !important;
+  padding-bottom: 1vh;
+}
+
 .mainTitle {
   font-size: xx-large;
 }
