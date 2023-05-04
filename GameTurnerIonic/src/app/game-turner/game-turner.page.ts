@@ -49,8 +49,6 @@ export class GameTurnerPage implements OnInit {
   ) {}
 
   async ngOnInit() {
-    
-
     this.audioPlayer.loop = true;
 
     this.retrievFromCookie();
