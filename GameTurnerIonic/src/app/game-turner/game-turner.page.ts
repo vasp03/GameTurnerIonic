@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as copy from 'copy-to-clipboard';
+import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-game-turner',
@@ -35,7 +36,7 @@ export class GameTurnerPage implements OnInit {
   public newPlayerName: string = "";
   public newPlayerNr: number = 0;
   public newPlayerColor: string = "#ffffff";
-  public currentSongTitle: string = "null";
+  public currentSongTitle: string = "No Song Selected";
   public importedPlayerList: string = "";
   public tabMenu: string = "songList";
   public player1Selector:string = "";
@@ -43,18 +44,50 @@ export class GameTurnerPage implements OnInit {
   public moneyTransfer:number = 0;
   public playerSelector:string = "";
   public moneyAddRemover:number = 0;
+  private cookieKey:string = "gamerTurnerCookie";
+  private cookieKeyVolume:string = "gamerTurnerCookieVolume";
 
   constructor(
     private http: HttpClient,
-  ) {
+    private storage: Storage,
+  ) {}
+
+  async ngOnInit() {
     this.audioPlayer.loop = true;
+    await this.storage.create();
+
+    this.retrievFromCookie();
+    this.getVolumeFromCookie();
+
     setInterval(() => {
       this.updateTimer();
+      this.saveToCookie();
+      this.saveVolumeToCookie();
     }, 500);
     this.updatePageBasedOnThePlayer();
   }
 
-  ngOnInit() {
+  async saveToCookie(){
+    if(this.playerList != null){
+      var arrayString = JSON.stringify(this.playerList);
+      await this.storage.set(this.cookieKey, arrayString);
+    }
+  }
+
+  async retrievFromCookie(){
+    const cookieValue = await this.storage.get(this.cookieKey);
+    this.playerList = JSON.parse(cookieValue);
+  }
+
+  async saveVolumeToCookie(){
+    var volumeValue = JSON.stringify(this.volume);
+    await this.storage.set(this.cookieKeyVolume, volumeValue);
+  }
+
+  async getVolumeFromCookie(){
+    const volumeValue = await this.storage.get(this.cookieKeyVolume);
+    this.volume = JSON.parse(volumeValue);
+    this.updateVolume();
   }
 
   changeTabMenu(newTab:string){
@@ -175,6 +208,11 @@ export class GameTurnerPage implements OnInit {
     if (this.volume <= 0.9) {
       this.volume += 0.1;
     }
+    this.visibleVolume = Math.round(this.volume * 100);
+    this.audioPlayer.volume = this.volume;
+  }
+
+  updateVolume(){
     this.visibleVolume = Math.round(this.volume * 100);
     this.audioPlayer.volume = this.volume;
   }
