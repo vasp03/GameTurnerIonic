@@ -43,7 +43,7 @@ export class GameTurnerPage implements OnInit {
   public moneyTransfer: number = 0;
   public playerSelector: string = "";
   public moneyAddRemover: number = 0;
-  public numberInputStep: number = 10;
+  public numberInputStep: string = "1";
   public startCash: number = 0;
 
   constructor(

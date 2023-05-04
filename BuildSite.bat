@@ -1,3 +1,3 @@
 cd gameturnerionic
-firebase deploy
+ionic build --prod
 timeout /t -1
