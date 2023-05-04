@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { initializeApp } from "firebase/app";
+// import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,11 @@ export class AppComponent {
   };
 
   constructor() {
-    const app = initializeApp(this.firebaseConfig);
+    initializeApp(this.firebaseConfig);
+    // this.start();
   }
+  
+  // async start() {
+  //   await this.storage.create();
+  // }
 }

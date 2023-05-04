@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as copy from 'copy-to-clipboard';
-import { Storage } from '@ionic/storage-angular';
-import { delay } from 'rxjs';
 
 @Component({
   selector: 'app-game-turner',
@@ -45,17 +43,13 @@ export class GameTurnerPage implements OnInit {
   public moneyTransfer:number = 0;
   public playerSelector:string = "";
   public moneyAddRemover:number = 0;
-  private cookieKey:string = "gamerTurnerCookie";
-  private cookieKeyVolume:string = "gamerTurnerCookieVolume";
 
   constructor(
     private http: HttpClient,
-    private storage: Storage,
   ) {}
 
   async ngOnInit() {
     this.audioPlayer.loop = true;
-    await this.storage.create();
 
     this.retrievFromCookie();
     this.getVolumeFromCookie();
@@ -65,29 +59,26 @@ export class GameTurnerPage implements OnInit {
       this.saveToCookie();
       this.saveVolumeToCookie();
     }, 500);
-    // this.updatePageBasedOnThePlayer();
   }
 
   async saveToCookie(){
-    if(this.playerList != null){
-      var arrayString = JSON.stringify(this.playerList);
-      await this.storage.set(this.cookieKey, arrayString);
-    }
+    var arrayString = JSON.stringify(this.playerList);
+    document.cookie = "gamerTurnerCookie=" + arrayString;
   }
 
   async retrievFromCookie(){
-    const cookieValue = await this.storage.get(this.cookieKey);
+    var cookieValue = document.cookie.replace(/(?:(?:^|.*;\s*)gamerTurnerCookie\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     this.playerList = JSON.parse(cookieValue);
   }
 
   async saveVolumeToCookie(){
-    var volumeValue = JSON.stringify(this.volume);
-    await this.storage.set(this.cookieKeyVolume, volumeValue);
+    var arrayString = JSON.stringify(this.volume);
+    document.cookie = "gamerTurnerCookieVolume=" + arrayString;
   }
 
   async getVolumeFromCookie(){
-    const volumeValue = await this.storage.get(this.cookieKeyVolume);
-    this.volume = JSON.parse(volumeValue);
+    var cookieValue = document.cookie.replace(/(?:(?:^|.*;\s*)gamerTurnerCookieVolume\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    this.volume = +JSON.parse(cookieValue);
     this.updateVolume();
   }
 
@@ -153,7 +144,6 @@ export class GameTurnerPage implements OnInit {
   }
 
   nextPlayer() {
-    // console.debug("nextPlayer");
     if (this.playerList.length > 1) {
       const lastNr = this.playerList.length - 1;
       const firstElement = this.playerList[0];
@@ -166,7 +156,6 @@ export class GameTurnerPage implements OnInit {
   }
 
   prevPlayer() {
-    // console.debug("prevPlayer");
     if (this.playerList.length > 1) {
       const lastNr = this.playerList.length - 1;
       const lastElement = this.playerList[lastNr];
@@ -179,11 +168,9 @@ export class GameTurnerPage implements OnInit {
   }
 
   updatePageBasedOnThePlayer(autoPlay: boolean = true) {
-    // console.debug("updatePageBasedOnThePlayer");
     if (this.playerList.length >= 1) {
       const usersSong = this.songList.find(song => song.number === this.playerList[0].songNr);
       if (usersSong) {
-        // console.debug(`Playing song: ${usersSong.file}`);
         if (autoPlay) this.playSong(usersSong);
       } else {
         console.log("No matching song found");
