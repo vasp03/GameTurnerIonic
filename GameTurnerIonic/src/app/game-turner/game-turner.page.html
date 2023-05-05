@@ -1,6 +1,9 @@
 <ion-content>
   <ion-grid>
-    <ion-row class="fullLenght">
+    <ion-row [hidden]="!screenSaverTime" class="black">
+      <img src="../../assets/MAXWELL.gif"/>
+    </ion-row>
+    <ion-row class="fullLenght" [hidden]="screenSaverTime">
       <ion-col size="4" class="rightBorderColorCol">
         <ion-row class="bottomBorderColorRow">
           <ion-title class="mainTitle">Game Turner</ion-title>
@@ -223,7 +226,7 @@
               <ion-input [(ngModel)]="moneyTransfer" type="number" min="0" step="{{numberInputStep}}" pattern="[0-9]"></ion-input>
             </ion-col>
             <ion-col>
-              <ion-title>[ --> ]</ion-title>
+              <ion-button fill="clear" (click)="tradeMoney()">[ --> ]</ion-button>
             </ion-col>
             <ion-col>
               <ion-select [(ngModel)]="player2Selector" interface="popover" placeholder="Select Player" label="Floating label" label-placement="floating" interface="popover">
@@ -289,6 +292,15 @@
               </ion-col>
               <ion-col>
                 <ion-input [(ngModel)]="startCash" type="number">
+                </ion-input>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-title>Screen Saver time delay:</ion-title>
+              </ion-col>
+              <ion-col>
+                <ion-input [(ngModel)]="screenSaverTimeDelay" type="number">
                 </ion-input>
               </ion-col>
             </ion-row>

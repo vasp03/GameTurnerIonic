@@ -45,6 +45,9 @@ export class GameTurnerPage implements OnInit {
   public moneyAddRemover: number = 0;
   public numberInputStep: string = "1";
   public startCash: number = 0;
+  private screenSaverTimer: number = 0;
+  public screenSaverTimeDelay: number = 20; //Half Seconds, 20 = 10 secs. 
+  public screenSaverTime: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -71,11 +74,34 @@ export class GameTurnerPage implements OnInit {
       // console.log(error);
     }
 
+    let prevX = 0;
+    let prevY = 0;
+    let currX = 0;
+    let currY = 0;
+
     setInterval(() => {
       this.updateTimer();
       this.saveToCookie();
       this.saveVolumeToCookie();
+
+      if (currX !== prevX || currY !== prevY) {
+        this.screenSaverTimer = 0;
+        prevX = currX;
+        prevY = currY;
+      }
+
+      if(this.screenSaverTimer >= this.screenSaverTimeDelay && this.tabMenu!="Settings"){
+        this.screenSaverTime = true;
+      }else{
+        this.screenSaverTime = false;
+        this.screenSaverTimer++;
+      }
     }, 500);
+
+    window.addEventListener('mousemove', function(e) {
+      currX = e.clientX;
+      currY = e.clientY;
+    });
   }
 
   resetCookies(){
@@ -97,7 +123,7 @@ export class GameTurnerPage implements OnInit {
   }
 
   async saveVolumeToCookie() {
-    var arrayString = JSON.stringify([this.volume, this.numberInputStep, this.tabMenu, this.startCash]);
+    var arrayString = JSON.stringify([this.volume, this.numberInputStep, this.tabMenu, this.startCash, this.screenSaverTimeDelay]);
     document.cookie = "gamerTurnerCookieVolume=" + arrayString + "; SameSite=Strict";
   }
 
@@ -107,7 +133,8 @@ export class GameTurnerPage implements OnInit {
     this.volume = parsed[0];
     this.numberInputStep = parsed[1];
     this.tabMenu = parsed[2];
-    this.startCash = parsed[3]
+    this.startCash = parsed[3];
+    this.screenSaverTimeDelay = parsed[4];
     this.updateVolume();
   }
 
